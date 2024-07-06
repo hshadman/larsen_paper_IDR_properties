@@ -90,6 +90,9 @@ class PyConforMap():
         #the file containing GW reference chain data should also have Rg/Rg_mean data
         #the self.GW_df MUST be single chain length
         self.GW_df = pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
+        self.GW_df_rg_values = self.GW_df['Rg2'].values**0.5
+        self.GW_df_rg_mean = np.mean(self.GW_df_rg_values)
+        self.GW_df['Rg/Rg_mean'] = self.GW_df_rg_values/self.GW_df_rg_mean
         self.GW_df['ratio'] = self.GW_df['Rend2'].values/self.GW_df['Rg2'].values
         
         #the default radius is 0.1
