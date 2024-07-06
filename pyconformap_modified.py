@@ -89,7 +89,7 @@ class PyConforMap():
         #the instantaneous shape ratio is calculated here
         #the file containing GW reference chain data should also have Rg/Rg_mean data
         #the self.GW_df MUST be single chain length
-        self.GW_df = pd.read_csv('reference_GW_chainlen_100_for_RSA.csv')
+        self.GW_df = pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
         self.GW_df['ratio'] = self.GW_df['Rend2'].values/self.GW_df['Rg2'].values
         
         #the default radius is 0.1
@@ -397,7 +397,7 @@ class PyConforMap():
         self.GW_df.to_csv(direc_and_filename,
                           index=False)
     def retrieve_default_GW_chain(self):
-        self.GW_df = pd.read_csv('reference_GW_chainlen_100_for_RSA.csv')
+        self.GW_df = pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
         self.GW_df['ratio'] = self.GW_df['Rend2'].values/self.GW_df['Rg2'].values
     def plot_style(self,ax,xlabel,ylabel,fontsize = 19, labelsize = 22, rotation = 0):
         plt.setp(ax.get_xticklabels(),fontsize=fontsize,rotation=rotation)
