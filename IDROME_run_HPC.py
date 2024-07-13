@@ -35,7 +35,7 @@ import os
 global testeq_GW
 testeq_GW= pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
 
-%%time
+
 seq_name_list = []
 seq_name_dir = []
 protein_name = []
