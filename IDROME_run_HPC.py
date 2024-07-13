@@ -5,7 +5,7 @@ from numpy.random import seed
 from numpy.random import shuffle
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import cm
-from __future__ import print_function
+#from __future__ import print_function
 import seaborn as sns
 from matplotlib.ticker import NullFormatter, MaxNLocator
 import matplotlib.ticker as ticker
@@ -27,7 +27,7 @@ from mpl_toolkits.mplot3d.axes3d import Axes3D
 from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 from matplotlib import cm
 from numpy import linspace
-import umap.umap_ as umap
+#import umap.umap_ as umap
 import os
 
 
