@@ -50,8 +50,6 @@ def compute_quantities_using_HPC_numba():
             seq_name_dir.append(root)
             break
     seq_name_dir_df = pd.DataFrame(zip(seq_name_list,seq_name_dir,protein_name),columns=['seq_name','seq_dir','protein_uniprot_id'])
-    del seq_name_list, seq_name_dir, protein_name
-    
     
     
     def RSA_based_fC(protein_var,protein_name,poly_id,
