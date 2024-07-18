@@ -33,7 +33,7 @@ import os
 
 cuda.detect()
  
-@jit(inline=True)
+@jit(inline='always')
 def RSA_based_fC(protein_var,protein_name,poly_id,
                        GW_moment_var,every_ith_snap,GW_every_ith_snap,radius_):
     x_total=[]
@@ -88,7 +88,7 @@ def RSA_based_fC(protein_var,protein_name,poly_id,
     fC_by_distance=(GW_points.shape[0]-len(GW_not_in_range))/(GW_points.shape[0])
     return fC_by_distance    
 
-@jit(inline=True)
+@jit(inline='always')
 def protein_3dplot_against_GW(protein_var,protein_label,second_obj,provided_color):
     
     x_variable= 'RSA'
@@ -198,7 +198,7 @@ def protein_3dplot_against_GW(protein_var,protein_label,second_obj,provided_colo
         
     return [fC_value, fA_value]
 
-@jit(inline=True)
+@jit(inline='always')
 def compute_3dplot_from_seq_name(seq_name):
     example_protein_dir = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]
     t = md.load(f'{example_protein_dir}/traj.xtc', top=f'{example_protein_dir}/top.pdb')
@@ -220,7 +220,7 @@ def compute_3dplot_from_seq_name(seq_name):
            protein_df]
 
 
-@jit(inline=True)
+@jit(inline='always')
 def generate_2d_map_size_shape(seq_name):
     exec(open("pyconformap_modified_for_HPC.py").read())
     location_of_files = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]    
@@ -237,7 +237,7 @@ def generate_2d_map_size_shape(seq_name):
     bounded_fraction_size_shape = map_2d_seq_name.bounded_fraction
     return [fC_value_size_shape, fA_value_size_shape, bounded_fraction_size_shape]
 
-@jit(inline=True)
+@jit(inline='always')
 def compute_quantities_using_HPC_numba():
 
     #global testeq_GW
