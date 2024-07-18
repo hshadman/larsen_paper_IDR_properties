@@ -242,18 +242,7 @@ def compute_quantities_using_HPC_numba():
 
     #global testeq_GW
     testeq_GW= pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
-    
-    
-    seq_name_list = []
-    seq_name_dir = []
-    protein_name = []
-    for root, dirs, files in os.walk('IDROME_larsen/IDRome_v4/', topdown=False):
-        for name in files:
-            seq_name_list.append(''.join(root.split('/')[2:(len(root.split('/'))-1)]+['_']+[root.split('/')[len(root.split('/'))-1]]))
-            protein_name.append(''.join(root.split('/')[2:(len(root.split('/'))-1)]))
-            seq_name_dir.append(root)
-            break
-    seq_name_dir_df = pd.DataFrame(zip(seq_name_list,seq_name_dir,protein_name),columns=['seq_name','seq_dir','protein_uniprot_id'])   
+    seq_name_dir_df = pd.read_csv('seq_name_dir_df.csv')
     seq_name_list = []
     fC_shape_shape = []
     fA_shape_shape = []
