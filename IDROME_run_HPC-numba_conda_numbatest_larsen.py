@@ -93,7 +93,7 @@ def protein_3dplot_against_GW(protein_var,protein_label,second_obj,provided_colo
     
     x_variable= 'RSA'
     y_variable=r'$R_s$'
-    global fC_value, grid_protein, grid_GW, fA_value
+    #global fC_value, grid_protein, grid_GW, fA_value
 
     testeq_GW= pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
     
