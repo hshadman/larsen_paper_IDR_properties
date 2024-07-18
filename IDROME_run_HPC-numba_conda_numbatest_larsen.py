@@ -239,7 +239,7 @@ def generate_2d_map_size_shape(seq_name):
     bounded_fraction_size_shape = map_2d_seq_name.bounded_fraction
     return [fC_value_size_shape, fA_value_size_shape, bounded_fraction_size_shape]
 
-@jit(inline='always',nopython=True)
+@jit(inline='always')
 def compute_quantities_using_HPC_numba():
 
     #global testeq_GW
