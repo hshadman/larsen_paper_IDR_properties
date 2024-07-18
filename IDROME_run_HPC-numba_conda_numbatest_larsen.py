@@ -48,7 +48,7 @@ def RSA_based_fC(protein_var,protein_name,poly_id,
         poly_var=protein_var.copy()
         protein_pro=poly_var[['ratio','RSA']].iloc[:every_ith_snap,:].copy()
         protein_pro['polymer_id']=np.repeat(protein_label,protein_pro.shape[0])
-        del x_total, y_total, temp_protein
+        #del x_total, y_total, temp_protein
     else:
         return print('ERROR')
 
@@ -121,7 +121,7 @@ def protein_3dplot_against_GW(protein_var,protein_label,second_obj,provided_colo
                        second_obj,testeq_GW,
                        temp_protein.shape[0],
                        1,0.1)            
-        del temp_protein
+        #del temp_protein
     else:
         print('ERROR. FIX ERROR')
 
@@ -207,7 +207,7 @@ def compute_3dplot_from_seq_name(seq_name):
     t_df_moments['acylindricity']=t_df_moments.R2.values-t_df_moments.R3.values
     t_df_moments['RSA']=(t_df_moments.asphericity.values**2+(0.75*t_df_moments.acylindricity.values**2))/(t_df_moments.R1.values+t_df_moments.R2.values+t_df_moments.R3.values)**2
     protein_df = t_df_moments[['RSA']].copy()
-    del t_df_moments
+    #del t_df_moments
     protein_df['Rg2'] = np.load(f'{example_protein_dir}/rg.npy')**2
     rg_mean = np.mean(np.load(f'{example_protein_dir}/rg.npy'))
     rg_by_rg_mean = np.load(f'{example_protein_dir}/rg.npy')/rg_mean
