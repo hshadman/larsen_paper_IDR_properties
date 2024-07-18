@@ -239,7 +239,6 @@ def compute_quantities_using_HPC_numba():
     
     exec(open("pyconformap_modified_for_HPC.py").read())
     def generate_2d_map_size_shape(seq_name):
-        global fC_value_size_shape, fA_value_size_shape, bounded_fraction_size_shape
         location_of_files = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]    
         rg2_value = np.load(location_of_files+'/rg.npy')**2
         ree2_value = np.load(location_of_files+'/ete.npy')**2
@@ -252,7 +251,7 @@ def compute_quantities_using_HPC_numba():
         fC_value_size_shape = map_2d_seq_name.fC_value
         fA_value_size_shape = map_2d_seq_name.fA_value
         bounded_fraction_size_shape = map_2d_seq_name.bounded_fraction
-        return    
+        return [fC_value_size_shape, fA_value_size_shape, bounded_fraction_size_shape]   
     seq_name_list = []
     fC_shape_shape = []
     fA_shape_shape = []
@@ -270,10 +269,10 @@ def compute_quantities_using_HPC_numba():
         
         mean_of_inst_Rs.append(main_3dplot_from_seq_name_result[2].ratio.mean())
         mean_of_RSA.append(main_3dplot_from_seq_name_result[2].RSA.mean())
-        generate_2d_map_size_shape(provided_seq_name)
-        fC_value_size_shape_list.append(fC_value_size_shape)
-        fA_value_size_shape_list.append(fA_value_size_shape)
-        bounded_fraction_size_shape_list.append(bounded_fraction_size_shape)
+        main_3dplot_sizeshape_from_seq_name_result = generate_2d_map_size_shape(provided_seq_name)
+        fC_value_size_shape_list.append(main_3dplot_sizeshape_from_seq_name_result[0])
+        fA_value_size_shape_list.append(main_3dplot_sizeshape_from_seq_name_result[1])
+        bounded_fraction_size_shape_list.append(main_3dplot_sizeshape_from_seq_name_result[2])
     
     hpc_computed_quantities = pd.DataFrame(zip(seq_name_list,fC_shape_shape,fA_shape_shape,
                     mean_of_inst_Rs,mean_of_RSA,
