@@ -200,6 +200,7 @@ def protein_3dplot_against_GW(protein_var,protein_label,second_obj,provided_colo
 
 @jit(inline='always')
 def compute_3dplot_from_seq_name(seq_name):
+    seq_name_dir_df = pd.read_csv('seq_name_dir_df.csv')
     example_protein_dir = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]
     t = md.load(f'{example_protein_dir}/traj.xtc', top=f'{example_protein_dir}/top.pdb')
     t_df_moments = pd.DataFrame(md.principal_moments(t),columns=['R3','R2','R1']).iloc[10:,:].copy()
@@ -223,6 +224,7 @@ def compute_3dplot_from_seq_name(seq_name):
 @jit(inline='always')
 def generate_2d_map_size_shape(seq_name):
     exec(open("pyconformap_modified_for_HPC.py").read())
+    seq_name_dir_df = pd.read_csv('seq_name_dir_df.csv')
     location_of_files = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]    
     rg2_value = np.load(location_of_files+'/rg.npy')**2
     ree2_value = np.load(location_of_files+'/ete.npy')**2
