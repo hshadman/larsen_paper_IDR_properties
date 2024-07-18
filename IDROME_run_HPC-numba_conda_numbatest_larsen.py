@@ -389,3 +389,4 @@ def compute_quantities_using_HPC_numba():
 
     return hpc_computed_quantities.to_csv('HPC_computed_fC_values_all_using_numba_numbatest_larsen.csv',index=False)
 
+compute_quantities_using_HPC_numba()
