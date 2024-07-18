@@ -36,7 +36,6 @@ cuda.detect()
 @jit(inline='always')
 def RSA_based_fC(protein_var,protein_name,poly_id,
                        GW_moment_var,every_ith_snap,GW_every_ith_snap,radius_):
-    from itertools import chain
     x_total=[]
     y_total=[]
     if poly_id=='protein':
