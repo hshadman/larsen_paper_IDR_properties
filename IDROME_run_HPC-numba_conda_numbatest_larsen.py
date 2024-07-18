@@ -215,55 +215,9 @@ def compute_quantities_using_HPC_numba():
     
         fA_value = np.count_nonzero(grid_protein)/np.count_nonzero(grid_GW)
             
-        axTemp_legend=axTemperature.legend(fontsize=7,loc='upper right')
-    
-        frame = axTemp_legend.get_frame()
-        frame.set_linewidth(1)
-        frame.set_edgecolor('black')
-        #axHisty.hist(y, bins=ybins, orientation='horizontal', color = provided_color)
-    
-    
-    
-    
-    
-    
-        #Set up the histogram limits
-        axHistx.set_xlim( xmin, xmax )
-        axHisty.set_ylim( ymin, ymax )
-    
-        axHistx.set_ylabel('Prob. Density',fontsize=12)
-        axHisty.set_xlabel('Prob. Density',fontsize=12)
-    
-    
-        #Cool trick that changes the number of tickmarks for the histogram axes
-        axHisty.xaxis.set_major_locator(MaxNLocator(4))
-        axHistx.yaxis.set_major_locator(MaxNLocator(3))
-    
-        for i in ['top', 'left', 'right', 'bottom']:
-            axHistx.spines[i].set_linewidth(1)
-            axHisty.spines[i].set_linewidth(1)
-            axTemperature.spines[i].set_linewidth(1)
-    
-        axHistx.minorticks_on()
-        axHistx.tick_params(axis='y', which='major', labelsize=10, width = 0.8, pad = 2)
-        axHistx.tick_params(axis='y', which='minor', width = 0.6)
-        axHisty.minorticks_on()
-        axHisty.tick_params(axis='x', which='major', labelsize=10, width = 0.8, pad = 2,labelrotation=270)
-        axHisty.tick_params(axis='x', which='minor', width = 0.6)
-        axTemperature.minorticks_on()
-        axTemperature.tick_params(axis='both', which='major', labelsize=10, width = 0.8, pad = 2)
-        axTemperature.tick_params(axis='both', which='minor', width = 0.6)    
-        plt.setp(axTemperature.get_yticklabels()[-1], visible=False)
-        plt.setp(axTemperature.get_xticklabels()[-1], visible=False)
-        #fig.subplots_adjust(hspace=0.85,wspace=0.85)
-    
-        # Save to a File
-        filename = 'GW_3d_plot'
-        #plt.savefig(f'figures/GW_{protein_label}_3dplot.png', dpi = 1000, bbox_inches='tight')
-        return 
+        return [fC_value, fA_value]
     
     def compute_3dplot_from_seq_name(seq_name):
-        global protein_df
         example_protein_dir = seq_name_dir_df[seq_name_dir_df.seq_name==seq_name].seq_dir.values[0]
         t = md.load(f'{example_protein_dir}/traj.xtc', top=f'{example_protein_dir}/top.pdb')
         t_df_moments = pd.DataFrame(md.principal_moments(t),columns=['R3','R2','R1']).iloc[10:,:].copy()
@@ -278,7 +232,10 @@ def compute_quantities_using_HPC_numba():
         protein_df['Rg_Rg_mean'] = rg_by_rg_mean
         protein_df['Ree2'] = np.load(f'{example_protein_dir}/ete.npy')**2
         protein_df['ratio'] = protein_df['Ree2']/protein_df['Rg2']
-        return protein_3dplot_against_GW(protein_df,seq_name,'protein','magenta')
+        protein_3dplot_func_result = protein_3dplot_against_GW(protein_df,seq_name,'protein','magenta')
+        return [protein_3dplot_func_result[0],#fC
+               protein_3dplot_func_result[1],#fA
+               protein_df]
     
     exec(open("pyconformap_modified_for_HPC.py").read())
     def generate_2d_map_size_shape(seq_name):
@@ -306,14 +263,13 @@ def compute_quantities_using_HPC_numba():
     bounded_fraction_size_shape_list = []
     for provided_seq_name in seq_name_dir_df.seq_name.values:
         seq_name_list.append(provided_seq_name)
-        compute_3dplot_from_seq_name(provided_seq_name)
-        plt.close()
-        fC_shape_shape.append(fC_value)
-        fA_shape_shape.append(fA_value)
-        del fC_value, fA_value
-        mean_of_inst_Rs.append(protein_df.ratio.mean())
-        mean_of_RSA.append(protein_df.RSA.mean())
-        del protein_df
+        main_3dplot_from_seq_name_result = compute_3dplot_from_seq_name(provided_seq_name)
+        #plt.close()
+        fC_shape_shape.append(main_3dplot_from_seq_name_result[0])
+        fA_shape_shape.append(main_3dplot_from_seq_name_result[1])
+        
+        mean_of_inst_Rs.append(main_3dplot_from_seq_name_result[2].ratio.mean())
+        mean_of_RSA.append(main_3dplot_from_seq_name_result[2].RSA.mean())
         generate_2d_map_size_shape(provided_seq_name)
         fC_value_size_shape_list.append(fC_value_size_shape)
         fA_value_size_shape_list.append(fA_value_size_shape)
