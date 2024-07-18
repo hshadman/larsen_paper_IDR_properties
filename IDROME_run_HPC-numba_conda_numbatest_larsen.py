@@ -36,7 +36,7 @@ cuda.detect()
 
 @jit(nopython=True)
 def compute_quantities_using_HPC_numba():
-    global testeq_GW
+    #global testeq_GW
     testeq_GW= pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
     
     
@@ -116,8 +116,6 @@ def compute_quantities_using_HPC_numba():
     
         testeq_GW= pd.read_csv('../segmented_chain_project/reference_GW_chainlen_100_for_RSA.csv')
         
-        plt.rcParams["font.weight"] = "regular"
-        plt.rcParams["axes.labelweight"] = "regular"
         
         
         x_polmodel_GW=[]
@@ -125,7 +123,7 @@ def compute_quantities_using_HPC_numba():
         x_total=[]
         y_total=[]
     
-        scatter_markers=['d','x',4,'o','v','^','1','8','s','p','P','*','X','D',9]
+
     
     
         x_polmodel_GW.append(testeq_GW['RSA'].values)
@@ -169,29 +167,6 @@ def compute_quantities_using_HPC_numba():
         xlabel = x_variable
         ylabel = y_variable
     
-        # Define the locations for the axes
-    
-        left, width = 0.12, 0.55
-        bottom, height = 0.12, 0.55
-        bottom_h = left_h = left+width
-        rect_temperature = [left, bottom, width, height] # dimensions of temp plot
-        rect_histx = [left, bottom_h, width, 0.25] # dimensions of x-histogram
-        rect_histy = [left_h, bottom, 0.25, height] # dimensions of y-histogram
-    
-    
-        # Set up the size of the figure
-        fig = plt.figure(1, figsize=(5.2,5))
-    
-        # Make the three plots
-        axTemperature = plt.axes(rect_temperature) # temperature plot
-        axHistx = plt.axes(rect_histx) # x histogram
-        axHisty = plt.axes(rect_histy) # y histogram
-    
-    
-        axHistx.axes.get_xaxis().set_visible(False)
-        axHisty.axes.get_yaxis().set_visible(False)
-    
-    
         # Find the min/max of the data
         xmin = min(xlims)
         xmax = max(xlims)
@@ -216,41 +191,12 @@ def compute_quantities_using_HPC_numba():
         X = xcenter
         Y = ycenter
     
-        axTemperature.scatter(x_polmodel_GW,y_polmodel_GW,
-                          marker=scatter_markers[3],s=1,alpha=0.6,color='black',
-                           label='GW')
         
-        axTemperature.scatter(x_total,
-                   y_total,
-                   marker=scatter_markers[0],s=1,alpha=0.6,color=provided_color,
-                                          label=protein_label)                
-    
-    
-    
-        #Plot the axes labels
-        axTemperature.set_xlabel(xlabel,fontsize=12,labelpad = 1)
-        axTemperature.set_ylabel(ylabel,fontsize=12, labelpad = 1)
-    
-        #Set up the plot limits
-        axTemperature.set_xlim(xlims)
-        axTemperature.set_ylim(ylims)
-    
         #Set up the histogram bins
         xbins = np.arange(xmin, xmax, (xmax-xmin)/nbins)
         ybins = np.arange(ymin, ymax, (ymax-ymin)/nbins)
     
-    
-        axHistx.hist(x_polmodel_GW, bins=xbins, color = 'black',histtype='step',
-                    linewidth = 0.7,density=True)
-        axHistx.hist(x_total, bins=xbins, color = provided_color,histtype='step',
-                    label=protein_label,linewidth = 0.7,density=True)
-    
-        axHisty.hist(y_polmodel_GW, bins=np.arange(min(y_total),max(y_total),1), color = 'black',orientation='horizontal',histtype='step',
-                    linewidth = 0.7,density=True)
-    
-        axHisty.hist(y_total, bins=ybins, color = provided_color,orientation='horizontal',histtype='step',
-                    label=protein_label,linewidth = 0.7,density=True)    
-        
+            
         #original_n_divisions=100
         step_x=0.05#RSA
         step_y=1.5#Shape ratio
@@ -268,14 +214,7 @@ def compute_quantities_using_HPC_numba():
         grid_GW, _, _ = np.histogram2d(x_polmodel_GW, y_polmodel_GW, bins=[gridx, gridy])
     
         fA_value = np.count_nonzero(grid_protein)/np.count_nonzero(grid_GW)
-        
-        axTemperature.text(0.7,0.8,
-                           '$f_C$= '+format(fC_value,'0.3f'),
-                          transform=axTemperature.transAxes,fontsize=8)
-        axTemperature.text(0.7,0.74,
-                           '$f_A$= '+format(fA_value,'0.3f'),
-                          transform=axTemperature.transAxes,fontsize=8)    
-    
+            
         axTemp_legend=axTemperature.legend(fontsize=7,loc='upper right')
     
         frame = axTemp_legend.get_frame()
